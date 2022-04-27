@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>Climbing </title>
+    <!-- Static Load -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+
+
+</head>
+
+<body>
+{#<div id="box">#}
+
+    <!-- Navigation Bar -->
+<header>
+    {% include 'base/header.html' %}
+</header>
+    <!-- End Navigation Bar -->
+
+    <!-- Main Content -->
+<main>
+{#    {% include 'base/main.html' %}#}
+
+    {% block page_content %}
+    {% endblock %}
+</main>
+    <!-- Footer -->
+<footer>
+    {% include 'base/footer.html' %}
+</footer>
+
+    <!-- End Footer -->
+
+
+</body>
+</html>
