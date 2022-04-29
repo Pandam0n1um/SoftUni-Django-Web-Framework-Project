@@ -24,9 +24,11 @@ class ClimbingGuideUser(auth_models.AbstractBaseUser, auth_models.PermissionsMix
     is_staff = models.BooleanField(
         default=False,
     )
+
     is_active = models.BooleanField(
         default=True,
     )
+
     date_joined = models.DateTimeField(
         auto_now_add=True,
     )
@@ -61,3 +63,7 @@ class Profile(models.Model):
         null=True,
         blank=True,
     )
+
+    def __str__(self):
+        full_name = ' '.join([name.capitalize() for name in (self.first_name, self.last_name) if name])
+        return f"{full_name} with id:"

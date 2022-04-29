@@ -11,14 +11,17 @@ class ClimbingTrip(models.Model):
     NAME_MAX_LENGTH = 50
 
     CAPACITY_MIN_VALUE = 0
+    TRIP_COST_MIN_VALUE = 0
 
     name = models.TextField(
         max_length=NAME_MAX_LENGTH,
     )
+
     start_date = models.DateField(
         null=False,
         blank=False,
     )
+
     end_date = models.DateField(
         null=False,
         blank=False,
@@ -32,7 +35,10 @@ class ClimbingTrip(models.Model):
     trip_cost = models.DecimalField(
         null=False,
         max_digits=6,
-        decimal_places=2
+        decimal_places=2,
+        validators=(
+            MinValueValidator(TRIP_COST_MIN_VALUE),
+        )
     )
 
     trip_description = models.TextField()
@@ -94,6 +100,7 @@ class ClimbingLocation(models.Model):
         max_length=max(len(x) for (x, _) in CLIMBING_TYPES),
         choices=CLIMBING_TYPES,
     )
+
     # TODO Implement climbing grade field
     # Either with separate model and FK or with the help of Arrayfield for PostgreSQL
     # https://docs.djangoproject.com/en/dev/ref/contrib/postgres/fields/#arrayfield
@@ -106,11 +113,30 @@ class ClimbingLocation(models.Model):
     #     max_length=2,
     #     choices=pytz.country_names.items())
 
+    def __str__(self):
+        return f"{self.name}"
 
-class Comment(models.Model):
-    comment = models.TextField()
 
-    task = models.ForeignKey(
+class ClimbingTripApplication(models.Model):
+
+    STATUS_MAX_LENGTH = 50
+
+    PENDING = 'Pending'
+    CONFIRMED = 'Confirmed'
+    STATUS_OPTIONS = [(x, x) for x in (CONFIRMED, PENDING)]
+
+    date_created = models.DateTimeField(
+        auto_now_add=True,
+        null=True,
+    )
+
+    status = models.CharField(
+        max_length=STATUS_MAX_LENGTH,
+        null=True,
+        choices=STATUS_OPTIONS,
+    )
+
+    climbing_trip = models.ForeignKey(
         ClimbingTrip,
         on_delete=models.CASCADE,
     )
