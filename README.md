@@ -1,1 +1,2 @@
-# SoftUni-Django-Web-Framework-Project
+# SoftUni-Django-Final-Project
+Climbing themed website for educational purposes
